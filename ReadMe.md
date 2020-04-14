@@ -122,4 +122,101 @@ cat종료하고싶으면 control+d
 cat < result.txt 는 standard input으로 받은거 
 cat hi 는 인자로 받은 것
 ![unix process](./unixprocess.png)
+IO스트림
 
+>> 는 redirection한 결과를 뒤에 append
+ls -l > /dev/null 결과를 쓰레기통으로
+
+
+## SHELL vs KERNEL
+쉘 : 사용자의 명령 해석해서 커널로 보냄
+커널 : 하드웨어 동작시킴.
+
+## bash vs zshell
+echo $0 을 통해 지금 사용중인 shell 파악.
+bash 와 zshell 은 부모가 같지만 zshell은 bash에 비해 추가가능
+zshell이 더 유연한 듯?
+
+## 쉘스크립트 실습
+touch a.log b.log c.log 빈 파일 생성
+
+#!/bin/bash
+if ! [ -d bak ]; then
+	midir bak
+fi
+*.log bak
+
+backup에 대한 권한
+chmod +x backup
+-rw-rw-r-- 이
+-rwxrwxr-x 로
+x는 exacutable
+
+## 디렉토리 구조
+/bin - user binarines (실행 가능한 프로그램, 사용자들이 사용하는 명령)
+/sbin - System binaries(reboot, shutdown... 시스템 관리자가 사용)
+/etc - configuration file, 설정 파일
+/dev - device files
+/proc - process information
+/var - variable files 내용이 바뀔수 있는 파일 ex log파일
+/tmp - temporary files 임시로 저장.
+/home - cd ~ home디렉토리로감.
+/boot
+/lib bin과 sbin에서 사용하는 라이브러리가 보관되어있는 파일
+/opt
+/usr bin, sbin 있음.. 우리가 따로 다운받은건 user/bin or sbin 등에 저장
+
+## 프로세스 모니터링
+ps
+ps aux 백드그라운드까지 보여줌
+ps aux | grep apache 아파치를 포함하는 프로세스만 보여줌
+말썽 부리면 sudo kill PID
+sudo top
+sudo htop 없으면 sudo apt-get install htop
+load average는 프로세스의 점유율
+첫번쨰는 1분 두번쨰는 5분 세번째자리는 15분의 평균
+load average 8 5 3
+인데 1분기준 코어가 4개면 부하가 많이 걸려있고 
+1 3 2 면 코어가 4갠데 하나만 쓰는거
+
+## 파일을 찾는 법
+
+### locate 
+*.log
+확장자가 log인 모든 파일을 찾음
+locate는 디렉터리가 아닌 데이터베이스를 찾음
+mlocate를 뒤짐
+### find
+는 디렉터리를 뒤짐
+성능은 좀 떨어지나 기능이 많다?
+sudo find / -name *.log
+find --help | head
+
+### whereis
+whereis ls
+/bin/ls
+
+$PATH 값을 통해 가져옴
+
+echo $PATH 환경변수
+
+## 백그라운드 실행
+### 컨트롤+z 백그라운드로 넘기고
+### fg(foreground)
+fg %2
+
+### kill %4
+kll -9 %4
+### &
+백그라운드에서 실행시키는 명령어 ?
+
+## CRON (정기적으로 실행)
+### crontab
+-e 수정
+crontab expression 으로 검색
+m h dom mon dow command
+*/1 (1분에 한번) *(시간과는 상관x) * * * date >> date.log 2>&1
+
+## 쉘을 시작할 때 실행
+alias l='ls-al'^C
+alias ..='cd..'
