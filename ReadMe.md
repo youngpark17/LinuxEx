@@ -220,3 +220,39 @@ m h dom mon dow command
 ## 쉘을 시작할 때 실행
 alias l='ls-al'^C
 alias ..='cd..'
+
+## 다중 사용자
+
+### id
+### who
+이 컴퓨터에는 누구누구가 접속해있는가
+
+## 관리자와 일반 사용자
+슈퍼유저의 이름은 root
+~#은 슈퍼유저
+~$ 일반유저
+### su
+user ID를 바꾸거나 superUser가 됨
+
+## 사용자 추가
+
+## 권한
+acess mode
+
+-rw-/rw-/r--
+오너의 권한/그룹의 권한/Other의 권한(운영체제의 등록되어있는 모든 사용자)
+r : read
+w : write
+x : excute
+
+
+### 권한을 변경
+chmode o-r perm.txt(other의 read권한 뺸다 perm.txt파일에 대해)
+chmode u+r perm.txt
+chmode 111 perm.txt도가능(0부터 7까지)
+
+### 실행의 개념과 권한 설정
+디렉토리의 실행권한이 cd명령어를 통해 못들어감
+
+
+
