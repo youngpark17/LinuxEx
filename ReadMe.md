@@ -249,10 +249,145 @@ x : excute
 ### 권한을 변경
 chmode o-r perm.txt(other의 read권한 뺸다 perm.txt파일에 대해)
 chmode u+r perm.txt
+chmod g+rwx file.txt
+
+chmod go+r file.txt
+그룹과 다른 사용자에게 읽기 권한을 준다
+
+chmod 000 test.c
+
+사용자, 그룹, 다른사용자의 모든 권한을 제거한다.
+
+chmod 777 test.c
+
+사용자, 그룹, 다른사용자의 모든 권한을 추가한다.
+
 chmode 111 perm.txt도가능(0부터 7까지)
 
 ### 실행의 개념과 권한 설정
 디렉토리의 실행권한이 cd명령어를 통해 못들어감
 
+
+## 그룹
+
+groupadd developer (그룹 생성)
+!! 두번은 직전에 입력했던 명령어
+sudo !!
+
+## vi에디터 종료
+esc 누르고 :wq는 저장하고 종료
+:!q는 저장 안하고 종료
+:w test.txt 파일명 없는 파일 이라면
+
+
+## linux 인터넷
+ping google.com
+우분트 ping 안될때 apt-get install iputils-ping
+윈도우는 4번보내지만 리눅스는 컨트롤c누를때까지 계속보낸다
+DNS는 거대한 전화번호부
+ip확인은 ifconfig
+또는 ip addr inet이 ip주소 왜 도커우분투는 ip addr 안먹는가?
+### public address vs private address
+
+1. public address 확인 방법(온라인 서비스 입장)
+: curl ipinfo.io/ip 라우터의 주소
+
+2. private address 확인 방법(실제 ip)
+: 라우터에서 보는 ip주소
+
+1,2는 같을수도 , 다를 수도 있다.
+
+한 집에 통신사로부터 211.46.24.37 이라는 ip를 할당 받는다면 공유기(라우터)를 통해 tv,컴퓨터, 전화기 등의 ip를 나눔. 즉 하나의 회선만 계약해서 사용료 절감. 통신사가 제공한 ip는 라우터가 갖고 private ip(사설 ip)로 집 내부 기기 구분
+public address와 private address가 다르다면 그 컴퓨터는 서버로 바로 쓸수 없다. 같은 wifi. 즉 같은 라우터를 사용하고 있어야 그 서버컴퓨터에 접속 가능.
+또는 라우터의 기능 잘 이용하면 가능함.
+
+## 웹서버(아파치)
+apt-cache search apache 설치가능한 패키지
+sudo apt update
+sudo apt install apache2
+sudo service apache2 start
+sudo service apache2 stop
+sudo service apache2 restart
+
+셸에서 웹브라우징을 할 수 있는 프로그램
+ex 이링크스
+elinks 실행하고 브라우징하면댐
+q키 누르면 빠져나옴
+localhost(자기 자신 도메인 네임) = 127.0.0.1 (자기 자신)
+프로그래밍의 동작 방법 설정은 /./etc에 있다.(일단 도커는)
+/etc/apache2 의 설정파일을 통해 ...
+웹페이지의 최상위 디렉터리 document root
+### tail -f /var/log/apache2/access.log
+누가 들어왔을때 실시간으로 보내줌.
+error.log와
+access.log를.... 확인
+
+## 원격제어(SSH)
+제어하려는 서버컴퓨터에는 ssh server를 설치
+우리의 컴퓨터에는 ssh client 설치
+apt-get install openssh-server openssh-client
+ssh start
+
+## 포트(port)
+:80(포트)
+web은 80포트
+ssh 는 20번 포트
+65000여개중에 1024개까지는 well known 포트
+포트번호 고정
+1024~65~~ 나머지는 우리가 만들어서 알아서 사용
+/etc/ssh/sshd_config
+
+### 포트 포워딩
+외부포트번호를 통해 내부 포트번호설정
+
+private ip를 외부에 있는 사용자에게 접근하게 하는 것
+라우터에 포트 설정. 
+라우터의 9000번 포트는 192.168.04:80 번으로 가라!
+공유기의 안쪽에서만 통용되는 ip -> default gateway
+
+apt install iproute2 ip명령어 사용하기위해 다운
+ip route default via -> default gateway의 ip
+
+## 도메인
+DNS domain name system
+dns 전에는 hosts file로...
+host file에 없으면 dns서버에 접속해서 알아냄.
+임시로 도메인을 바꿔야 할 경우에 host파일을 이용
+해커들이 host파일을 공격해서 naver에 매칭된 ip를 바꾼다!
+
+### 도메인 구입
+cat /./etc/resolv.conf 를 통해 nameserver 확인(dns server ip)
+freedomain도 있다
+freenom에서
+
+host google.com 구글의 ip확인
+
+### subDomain
+
+### DNS principal
+egoing.ga(.) (.)은 root
+도메인은 여러 컴퓨터가 계층적으로 분산해서 저장
+
+root dns list는 알고있다
+.(root) root domainsystem에게 ga를 관장하는 dns 물어봄
+ga관장하는 도메인시스템에게 egoing이 있는 dns ip 물어봄
+그다음 egoing.ga의 ip 획득
+ga이라는 도메인을 구입한다는 것은 ga관장하는 서버회사에게 돈을 내는거
+
+
+## 인터넷을 통한 서버간 동기환(rsync)
+r = remote
+touch test{1..10} 테스트 1부터 9까지 파일 생성
+rsync -a src/ dest 밑에 있는 dest파일이 동기화
+rsync -a == 아카이브 파일 권한이나 내용 까지 다 전송
+rsync -av src dest
+이렇게 하면 dest라는 디렉토리 안에 src라는 디렉토리가 생성됨
+a는 아카이브 모드, v는 진행상태 출력
+
+dest라는 디렉토리 안에 src 안에 있는 내용을 동기화하고자 한다면
+rsync -a src/ dest
+여기에서 src/는 src 디렉토리 안에 있는 파일들이라는 뜻
+rsync -azP (z=압축 P=접송되는 상황을 progressbar)
+rsync의 가장 큰 장점은 증분백업 기능
 
 
