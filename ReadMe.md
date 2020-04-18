@@ -14,6 +14,9 @@ grep은 필요한거 찾는 명령어
 | 파이프를 통해 프로그램과 프로그램을 연결.
 ps aux | grep apache
 
+## find
+
+find . -name "*tomcat*" tomcat포함된 모든거 검색.
 
 
 ## ls
