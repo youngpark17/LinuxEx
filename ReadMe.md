@@ -1,5 +1,18 @@
 # 리눅스 연습 구름IDE를 이용한 우분투+생활코딩 참고
 
+## 구름 ide의 톰캣 루트 경로, 포트번호 설정은 여기서 server.xml 변경
+
+/goormService/tomcat7/conf 
+
+root 디렉터리 경로 이렇게. 설정 톰캣7
+<Host name="localhost"  appBase="webapps" 
+        unpackWARs="true" autoDeploy="true"
+        xmlValidation="false" xmlNamespaceAware="false">
+    <Context path="" docBase="E:" reloadable="true">
+    </Context>
+</Host>
+
+
 
 ## 왜 CLI 인가?
 1. GUI는 에너지를 많이 먹는다. 따라서 서버컴퓨터나 데이터 관련 컴퓨터는 CLI 사용
