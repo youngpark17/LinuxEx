@@ -31,6 +31,22 @@ ps aux | grep apache
 
 find . -name "*tomcat*" tomcat포함된 모든거 검색.
 
+## ps -e
+현재 실행중인 프로세스 알려줌
+
+## 실행중인 프로세스 ssh 로그아웃 했을때도 실행되게 하기
+python3 app.py
+인 상태에서
+컨트롤 + z
+bg (bg 로 안되면 bg 1)
+disown을 입력해 작업의 소유권을 shell session 에서 해제
+이후 ssh 재 로그인 한 다음에 프로세스 확인
+ps -ef | grep python
+
+이전에 백그라운드로 실행시킨 작업에 대해 전부 shell session 소유권 해제
+disown -a
+
+
 
 ## ls
 현재 디렉토리의 파일 목록을 출력하는 명령어. 'ls -l'은 자세히 보기 파일의 리스트를 보자
